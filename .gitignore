@@ -1,0 +1,16 @@
+build/
+build-*/
+cmake-build-*/
+models/
+*.gguf
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe

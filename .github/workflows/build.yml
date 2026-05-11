@@ -1,0 +1,23 @@
+name: Build
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DHYMT_USE_OPENMP=ON
+      - run: cmake --build build -j$(nproc)
+      - run: test -f build/hymt_cli && test -f build/hymt_repl
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DHYMT_USE_METAL=ON -DHYMT_USE_OPENMP=OFF
+      - run: cmake --build build -j$(sysctl -n hw.ncpu)
+      - run: test -f build/hymt_cli && test -f build/hymt_repl
