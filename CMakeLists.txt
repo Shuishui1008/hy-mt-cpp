@@ -20,6 +20,12 @@ option(HYMT_USE_OPENMP  "Enable OpenMP in llama.cpp"          ON)
 
 set(LLAMA_CPP_TAG "master" CACHE STRING "llama.cpp git tag/branch to fetch")
 
+# llama.cpp git repo URL. Default is upstream ggml-org.
+# For AngelSlim 2-bit STQ GGUF support, use Tencent's fork:
+#   -DLLAMA_CPP_REPO=https://github.com/Tencent/AngelSlim.git
+#   -DLLAMA_CPP_TAG=main
+set(LLAMA_CPP_REPO "https://github.com/ggml-org/llama.cpp.git" CACHE STRING "llama.cpp git repository URL")
+
 # Pull llama.cpp — either from local path or via FetchContent
 set(LLAMA_CPP_LOCAL "" CACHE PATH "Path to a local llama.cpp source tree (skips FetchContent)")
 
@@ -52,7 +58,7 @@ else()
   include(FetchContent)
   FetchContent_Declare(
     llama_cpp
-    GIT_REPOSITORY https://github.com/ggml-org/llama.cpp.git
+    GIT_REPOSITORY ${LLAMA_CPP_REPO}
     GIT_TAG        ${LLAMA_CPP_TAG}
     GIT_SHALLOW    TRUE
   )
@@ -87,4 +93,4 @@ if(HYMT_BUILD_CLI)
   target_link_libraries(hymt_repl PRIVATE hymt)
 endif()
 
-message(STATUS "hy-mt-cpp: llama.cpp=${LLAMA_CPP_TAG} Metal=${HYMT_USE_METAL} CUDA=${HYMT_USE_CUDA} Vulkan=${HYMT_USE_VULKAN} OpenMP=${HYMT_USE_OPENMP}")
+message(STATUS "hy-mt-cpp: repo=${LLAMA_CPP_REPO} tag=${LLAMA_CPP_TAG} Metal=${HYMT_USE_METAL} CUDA=${HYMT_USE_CUDA} Vulkan=${HYMT_USE_VULKAN} OpenMP=${HYMT_USE_OPENMP}")

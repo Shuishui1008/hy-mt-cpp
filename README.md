@@ -37,6 +37,11 @@ make -j$(nproc)
 | Q8_0 | ~1.8GB | Best | Desktop benchmark |
 | Q4_K_M | ~1.1GB | Good | Mobile (high-end) |
 | Q2_K | ~0.7GB | OK | Mobile (all) |
+| **2-bit STQ** | ~574MB | Good (QAT) | Mobile (all) — requires AngelSlim build |
+| **1.25-bit STQ** | ~440MB | Decent (QAT) | Ultra-light edge — requires AngelSlim build |
+
+> **Note:** The 2-bit and 1.25-bit models use Tencent's custom STQ quantization.
+> See [docs/2bit-model.md](docs/2bit-model.md) for build instructions.
 
 ## Build Options
 
@@ -46,6 +51,9 @@ cmake .. -DHYMT_USE_CUDA=ON     # NVIDIA GPU
 cmake .. -DHYMT_USE_VULKAN=ON   # Cross-platform GPU
 cmake .. -DHYMT_USE_OPENMP=OFF  # Disable OpenMP
 cmake .. -DLLAMA_CPP_TAG=b5000  # Pin llama.cpp version
+
+# For AngelSlim 2-bit STQ model support:
+cmake .. -DLLAMA_CPP_REPO=https://github.com/Tencent/AngelSlim.git -DLLAMA_CPP_TAG=main
 ```
 
 ## Roadmap
